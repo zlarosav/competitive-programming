@@ -1,0 +1,37 @@
+#include <bits/stdc++.h>
+
+#ifdef LOCAL
+#include "../../debug.cpp"
+#else
+#define dbg(...)
+#endif
+
+using namespace std;
+
+void solve() {
+  string w, aZ; cin >> w;
+  map<int, char> others;
+  for (int i = 0; i < w.size(); i++) {
+    if (w[i] != 'A' && w[i] != 'Z') others[i] = w[i];
+    else if (w[i] == 'A' || w[i] == 'Z') aZ += w[i];
+  }
+  reverse(aZ.begin(), aZ.end());
+  for (int i = 0, j = 0; i < w.size(); i++) {
+    if (others[i]) cout << others[i];
+    else {cout << aZ[j]; j++;}
+  }
+  cout << '\n';
+}
+
+int main() {
+  ios_base::sync_with_stdio(0);
+  cin.tie(0);
+
+  int t = 1; 
+  cin >> t;
+  while (t--) {
+    solve();
+  }
+
+  return 0;
+}

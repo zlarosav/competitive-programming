@@ -1,0 +1,37 @@
+/*
+  https://omegaup.com/arena/problem/ContandoOvejas/
+  Tema: Basic
+*/
+
+#include <bits/stdc++.h>
+
+#ifdef LOCAL
+#include "../debug.cpp"
+#else
+#define dbg(...)
+#endif
+
+using namespace std;
+
+void solve() {
+  int n; cin >> n;
+  int ans = 0;
+  while (n--) {
+    string x; cin >> x;
+    if (x == "oveja") ans++;
+  }
+  cout << ans << '\n';
+}
+
+int main() {
+  ios_base::sync_with_stdio(0);
+  cin.tie(0);
+
+  int t = 1; 
+  cin >> t;
+  while (t--) {
+    solve();
+  }
+
+  return 0;
+}

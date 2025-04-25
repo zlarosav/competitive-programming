@@ -1,0 +1,11 @@
+.vscode
+.cph
+*.bin
+*.exe
+node_modules
+in
+out
+in.txt
+out.txt
+main
+Scripts
