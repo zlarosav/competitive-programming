@@ -9,17 +9,17 @@
 using namespace std;
 
 void solve() {
-  int n, m; cin >> n >> m;
-  vector<vector<int>> adj(n+1);
-  while (m--) {
+  int N, M; cin >> N >> M;
+  vector<vector<int>> adj(N+1);
+  while (M--) {
     int u, v; cin >> u >> v;
     adj[u].push_back(v);
     adj[v].push_back(u);
   }
 
-  vector<bool> vis(n+1);
+  vector<int> vis(N+1);
+  vector<int> parent(N+1);
   queue<int> q;
-  vector<int> ans;
   auto bfs = [&](int start) {
     vis[start] = 1;
     q.push(start);
@@ -27,18 +27,26 @@ void solve() {
     while (!q.empty()) {
       int u = q.front();
       q.pop();
-      ans.push_back(u);
 
-      for (auto x : adj[u]) {
-        if (vis[x]) continue;
-        vis[x] = 1;
-        q.push(x);
+      for (auto v : adj[u]) {
+        if (parent[u] == v) continue;
+        if (vis[v]) return true;
+        vis[v] = 1;
+        parent[v] = u;
+        q.push(v);
       }
     }
-  };
 
-  bfs(1);
-  for (auto x : ans) cout << x << ' ';
+    return false;
+  };
+  for (int i = 1; i <= N; i++) {
+    if (vis[i]) continue;
+    if (bfs(i)) {
+      cout << "YES";
+      return;
+    }
+  }
+  cout << "NO";
 }
 
 int main() {

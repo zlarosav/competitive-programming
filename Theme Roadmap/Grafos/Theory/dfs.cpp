@@ -7,36 +7,33 @@
 #endif
 
 using namespace std;
-using ll = long long;
 
 void solve() {
-  int N, M; cin >> N >> M;
-  vector<vector<int>> adj(N + 1);
-  while (M--) {
+  int V, E; cin >> V >> E;
+  vector<vector<int>> adj(V);
+  while (E--) {
     int u, v; cin >> u >> v;
     adj[u].push_back(v);
     adj[v].push_back(u);
   }
+  vector<int> visited(V);
 
-  vector<bool> vis(N + 1);
   vector<int> ans;
-
-  function<void(int)> dfs = [&](int u) {
-    vis[u] = 1;
-    ans.push_back(u);
-
-    for (auto x : adj[u]) {
-      if (vis[x]) continue;
+  function<void(int)> dfs = [&](int node) {
+    visited[node] = 1;
+    ans.push_back(node);
+    for (auto x : adj[node]) {
+      if (visited[x] == 1) continue;
       dfs(x);
     }
   };
 
-  for (int i = 1; i <= N; i++) {
-    if (vis[i]) continue;
+  for (int i = 0; i < V; i++) {
+    if (visited[i] == 1) continue;
     dfs(i);
   }
-
-  for (auto x : ans) cout << x << ' ';
+  
+  for (int x : ans) cout << x << ' ';
 }
 
 int main() {
@@ -44,7 +41,7 @@ int main() {
   cin.tie(0);
 
   int t = 1; 
-  // cin >> t;
+  //cin >> t;
   while (t--) {
     solve();
   }
