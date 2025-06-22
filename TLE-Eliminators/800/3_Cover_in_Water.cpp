@@ -17,31 +17,25 @@ using namespace std;
 #define approx(a) fixed << setprecision(a)
 
 using ll = long long;
-const double PI = 3.141592653589793;
 const ll MX = 1e9 + 1;
 
 void solve() {
-  int n, m; cin >> n >> m;
-  vector<vector<int>> adj(n+1);
-  while (m--) {
-    int u, v; cin >> u >> v;
-    adj[u].push_back(v);
-    adj[v].push_back(u);
-  }
-
-  vector<bool> vis(n+1);
-  function<void(int)> dfs = [&](int u) {
-    vis[u] = true;
-    for (int& v : adj[u]) {
-      if (vis[v]) continue;
-      dfs(v);
+  int n; cin >> n;
+  string s; cin >> s;
+  int total = 0, curr = 0;
+  for (int i = 0; i < n; i++) {
+    if (s[i] == '#') {
+      curr = 0;
+      continue;
     }
-  };
-
-  for (int u = 1; u <= n; u++) {
-    if (vis[u]) continue;
-    dfs(u);
+    curr++;
+    total++;
+    if (curr == 3) {
+      cout << "2\n";
+      return;
+    }
   }
+  cout << total << '\n';
 }
 
 int main() {
@@ -49,7 +43,7 @@ int main() {
   cin.tie(0);
 
   int t = 1; 
-  //cin >> t;
+  cin >> t;
   while (t--) {
     solve();
   }

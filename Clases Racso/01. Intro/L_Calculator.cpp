@@ -21,26 +21,18 @@ const double PI = 3.141592653589793;
 const ll MX = 1e9 + 1;
 
 void solve() {
-  int n, m; cin >> n >> m;
-  vector<vector<int>> adj(n+1);
-  while (m--) {
-    int u, v; cin >> u >> v;
-    adj[u].push_back(v);
-    adj[v].push_back(u);
-  }
-
-  vector<bool> vis(n+1);
-  function<void(int)> dfs = [&](int u) {
-    vis[u] = true;
-    for (int& v : adj[u]) {
-      if (vis[v]) continue;
-      dfs(v);
-    }
-  };
-
-  for (int u = 1; u <= n; u++) {
-    if (vis[u]) continue;
-    dfs(u);
+  string s; cin >> s;
+  stringstream ss(s);
+  int a, b; char op;
+  ss >> a >> op >> b;
+  if (op == '+') {
+    cout << a+b;
+  } else if (op == '-') {
+    cout << a-b;
+  } else if (op == '*') {
+    cout << a*b;
+  } else {
+    cout << a/b;
   }
 }
 
@@ -49,7 +41,7 @@ int main() {
   cin.tie(0);
 
   int t = 1; 
-  //cin >> t;
+  // cin >> t;
   while (t--) {
     solve();
   }

@@ -17,34 +17,34 @@ using namespace std;
 #define approx(a) fixed << setprecision(a)
 
 using ll = long long;
-const double PI = 3.141592653589793;
 const ll MX = 1e9 + 1;
 
 void solve() {
   int n, m; cin >> n >> m;
-  vector<vector<int>> grid(n, vector<int>(m));
-  for (auto& x : grid) for (int& i : x) cin >> i;
+  vector<vector<char>> grid(n, vector<char>(m));
+  for (auto& x : grid) for (char& i : x) cin >> i;
   
-  vector<vector<bool>> vis(n, vector<bool>(m));
   int dx[] = {-1,1,0,0}, dy[] = {0,0,-1,1};
-  function<int(int, int)> dfs = [&](int ux, int uy) {
-    vis[ux][uy] = 1;
-    int total = grid[ux][uy];
+  vector<vector<bool>> vis(n, vector<bool>(m));
+  function<void(int, int)> dfs = [&](int ux, int uy) {
+    vis[ux][uy] = true;
     for (int d = 0; d < 4; d++) {
       int vx = ux + dx[d], vy = uy + dy[d];
-      if (0 <= vx && 0 <= vy && vx < n && vy < m && !vis[vx][vy] && grid[vx][vy] != 0) total += dfs(vx, vy);
+      if (0 <= vx && 0 <= vy && vx < n && vy < m && !vis[vx][vy] && grid[vx][vy] == '.') {
+        dfs(vx, vy);
+      }
     }
-    return total;
   };
 
-  int ans = 0;
-  for (int ux = 0; ux < n; ux++) {
-    for (int uy = 0; uy < m; uy++) {
-      if (vis[ux][uy]) continue;
-      ans = max(dfs(ux, uy), ans);
+  int comp = 0;
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < m; j++) {
+      if (vis[i][j] || grid[i][j] != '.') continue;
+      dfs(i, j);
+      comp++;
     }
   }
-  cout << ans << '\n';
+  cout << comp;
 }
 
 int main() {
@@ -52,7 +52,7 @@ int main() {
   cin.tie(0);
 
   int t = 1; 
-  cin >> t;
+  // cin >> t;
   while (t--) {
     solve();
   }

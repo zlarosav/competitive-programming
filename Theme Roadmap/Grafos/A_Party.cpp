@@ -7,56 +7,57 @@
 #endif
 
 using namespace std;
+
+#define pb push_back
+#define sz(a) ((int)(a).size())
+#define ff first
+#define ss second
+#define all(a) (a).begin(), (a).end()
+#define allr(a) (a).rbegin(), (a).rend()
+#define approx(a) fixed << setprecision(a)
+
 using ll = long long;
+const ll MX = 1e9 + 1;
 
 void solve() {
-  int N; cin >> N;
-  vector<int> parent(N+1);
-  vector<vector<int>> adj(N+1);
-  for (int u = 1; u <= N; u++) {
+  int n; cin >> n;
+  vector<vector<int>> adj(n+1);
+  vector<int> parents;
+  for (int u = 1; u <= n; u++) {
     int v; cin >> v;
-    parent[u] = v;
-    if (v == -1) continue;
-    adj[u].push_back(v);
-    adj[v].push_back(u);
+    if (v == -1) parents.push_back(u);
+    else {
+      adj[u].push_back(v);
+      adj[v].push_back(u);
+    }
   }
-  //dbg(parent, adj);
-
-  vector<int> vis(N+1);
+  vector<bool> vis(n+1);
   queue<int> q;
-  
-  auto bfs = [&](int start) {
-    vis[start] = 1;
-    q.push(start);
+  function<int(int)> bfs = [&](int start) {
     int levels = 0;
-
+    vis[start] = true;
+    q.push(start);
     while (!q.empty()) {
       int sz = q.size();
       levels++;
-
       while (sz--) {
         int u = q.front();
-        vis[u] = 1;
         q.pop();
-
-        for (auto v : adj[u]) {
-          if (vis[v] || v == parent[u]) continue;
-          vis[v] = 1;
+        for (int& v : adj[u]) {
+          if (vis[v]) continue;
+          vis[v] = true;
           q.push(v);
         }
       }
     }
-
     return levels;
   };
-
-  int lvlMx = 0;
-  for (int u = 1; u <= N; u++) {
-    if (vis[u] || parent[u] != -1) continue;
-    lvlMx = max(lvlMx, bfs(u));
+  int ans = 0;
+  for (int& start : parents) {
+    if (vis[start]) continue;
+    ans = max(bfs(start), ans);
   }
-
-  cout << lvlMx;
+  cout << ans;
 }
 
 int main() {

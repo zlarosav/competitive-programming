@@ -16,33 +16,35 @@ void solve() {
     adj[u].push_back(v);
     adj[v].push_back(u);
   }
-  vector<int> vis(N+1);
+  vector<bool> vis(N+1);
   vector<int> parent(N+1);
   
-  function<bool(int)> dfs = [&](int u) {
+  bool isCycle = false;
+  function<void(int)> dfs = [&](int u) {
     vis[u] = 1;
     
     for (auto v : adj[u]) {
       if (parent[u] == v) continue;
-      if (vis[v] == 1) return true;
+      if (vis[v]) {
+        isCycle = true;
+        return;
+      }
       parent[v] = u;
+      
       dfs(v);
+      if (isCycle) return;
     }
-
-    return false;
   };
 
-  for (int i = 0; i < N; i++) {
-    if (vis[i] == 1) continue;
-    if (!dfs(i)) {
-      dbg(vis, parent);
+  for (int i = 1; i <= N; i++) {
+    if (vis[i]) continue;
+    dfs(i);
+    if (isCycle) {
       cout << "YES";
       return;
     };
   }
   cout << "NO";
-  
-  //for (int x : ans) cout << x << ' ';
 }
 
 int main() {

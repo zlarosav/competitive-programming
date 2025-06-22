@@ -8,32 +8,40 @@
 
 using namespace std;
 
+#define pb push_back
+#define sz(a) ((int)(a).size())
+#define ff first
+#define ss second
+#define all(a) (a).begin(), (a).end()
+#define allr(a) (a).rbegin(), (a).rend()
+#define approx(a) fixed << setprecision(a)
+
+using ll = long long;
+const double PI = 3.141592653589793;
+const ll MX = 1e9 + 1;
+
 void solve() {
-  int V, E; cin >> V >> E;
-  vector<vector<int>> adj(V);
-  while (E--) {
+  int n, m; cin >> n >> m;
+  vector<vector<int>> adj(n+1);
+  while (m--) {
     int u, v; cin >> u >> v;
     adj[u].push_back(v);
     adj[v].push_back(u);
   }
-  vector<int> visited(V);
 
-  vector<int> ans;
-  function<void(int)> dfs = [&](int node) {
-    visited[node] = 1;
-    ans.push_back(node);
-    for (auto x : adj[node]) {
-      if (visited[x] == 1) continue;
-      dfs(x);
+  vector<bool> vis(n+1);
+  function<void(int)> dfs = [&](int u) {
+    vis[u] = true;
+    for (int& v : adj[u]) {
+      if (vis[v]) continue;
+      dfs(v);
     }
   };
 
-  for (int i = 0; i < V; i++) {
-    if (visited[i] == 1) continue;
-    dfs(i);
+  for (int u = 1; u <= n; u++) {
+    if (vis[u]) continue;
+    dfs(u);
   }
-  
-  for (int x : ans) cout << x << ' ';
 }
 
 int main() {
